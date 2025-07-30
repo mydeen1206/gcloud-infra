@@ -4,6 +4,7 @@ module "vpc" {
     project_id   = var.gcp_project
     network_name = "${local.name}-vpc"
     routing_mode = "GLOBAL"
+    description = "This VPC is created by Terraform"
     subnets = [
         {
             subnet_name           = "${local.name}-${var.gcp_region1}-subnet"

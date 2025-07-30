@@ -4,12 +4,12 @@ terraform {
   required_providers {
     google = {
       source = "hashicorp/google"
-      version = ">= 6.0.0"
+      version = ">= 6.46.0"
     }
   }
   backend "gcs" {
     bucket = "terraform-bucket-devops"
-    prefix = "backend/vminstance"
+    prefix = "backend/vpc"
   }  
 }
 
