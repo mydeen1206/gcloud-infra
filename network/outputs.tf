@@ -28,3 +28,22 @@ output "subnets_regions" {
 output "vpc_id" {
   value = module.vpc.network_id
 }
+output "ssh_firewall_rule_name" {
+  description = "Name of the SSH firewall rule"
+  value       = google_compute_firewall.fw_ssh.name
+}
+
+output "http_firewall_rule_name" {
+  description = "Name of the HTTP firewall rule"
+  value       = google_compute_firewall.fw_http.name
+}
+
+output "allow_all_firewall_rule_name" {
+  description = "Name of the allow-all firewall rule"
+  value       = google_compute_firewall.fw_allow_all.name
+}
+
+output "vpc_network_id" {
+  description = "VPC network ID associated with the firewall rules"
+  value       = module.vpc.network_id
+}
