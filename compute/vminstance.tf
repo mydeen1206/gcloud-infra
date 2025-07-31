@@ -1,21 +1,39 @@
-# Resource Block: Create a single Compute Engine instance
-resource "google_compute_instance" "myapp1" {
-  name         = "${local.name}-myapp1"
+data "terraform_remote_state" "vpc" {
+  backend = "gcs"
+  config = {
+    bucket = "terraform-bucket-devops"  
+    prefix = "backend/vpc"                
+  }
+}
+
+resource "google_compute_instance" "bastion" {
+  name         = "${local.name}-bastion"
   machine_type = var.machine_type
   zone         = "us-central1-a"
-  tags        = [tolist(google_compute_firewall.fw_ssh.target_tags)[0], tolist(google_compute_firewall.fw_http.target_tags)[0]]
+  tags         = ["allow-ssh", "allow-http", "allow-all"]
+
+  labels = {
+    environment = "dev"
+    role        = "bastion"
+  }
+
   boot_disk {
     initialize_params {
-      image = "debian-cloud/debian-12"
+      image = "ubuntu-os-cloud/ubuntu-2204-lts"
+      size  = "20"
+      type  = "pd-standard"
     }
+    auto_delete = true
   }
-  # Install Webserver
+
   metadata_startup_script = file("${path.module}/app1-webserver-install.sh")
+
   network_interface {
-    #subnetwork = google_compute_subnetwork.mysubnet.id   
-    subnetwork = module.vpc.subnets_ids[0]
-    access_config {
-      # Include this section to give the VM an external IP address
-    }
+    subnetwork = data.terraform_remote_state.vpc.outputs.subnets_ids[0]
+    access_config {}
   }
+}
+output "bastion_external_ip" {
+  description = "Bastion Host External IP"
+  value       = google_compute_instance.bastion.network_interface[0].access_config[0].nat_ip
 }
