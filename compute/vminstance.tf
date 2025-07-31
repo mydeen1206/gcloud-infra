@@ -5,12 +5,28 @@ data "terraform_remote_state" "vpc" {
     prefix = "backend/vpc"                
   }
 }
+data "terraform_remote_state" "google_compute_firewall" {
+  backend = "gcs"
+  config = {
+    bucket = "terraform-bucket-devops"
+    prefix = "backend/vpc"
+  }
+}
 
 resource "google_compute_instance" "bastion" {
   name         = "${local.name}-bastion"
   machine_type = var.machine_type
   zone         = "us-central1-a"
-  tags         = ["allow-ssh", "allow-http", "allow-all"]
+  #tags         = ["allow-ssh", "allow-http", "allow-all"]
+  tags = [
+    "bation-ssh-tag",
+    "bation-webserver-tag",
+    "bation-allow-all-tag",
+    # Using outputs from the firewall rules
+    #data.terraform_remote_state.google_compute_firewall.outputs.ssh_firewall_rule_name,
+    #data.terraform_remote_state.google_compute_firewall.outputs.http_firewall_rule_name,
+    #data.terraform_remote_state.google_compute_firewall.outputs.allow_all_firewall_rule_name,
+    ]
 
   labels = {
     environment = "dev"
