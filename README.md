@@ -23,5 +23,4 @@ gcloud config configurations describe
 gcloud config configurations rename
 
 # Configure GCP Credentials (ADC: Application Default Credentials)
-# IMPORTANT: MANDATORY FOR TERRAFORM COMMANDS TO WORK WITH GCP FROM OUR LOCAL TERMINAL
 gcloud auth application-default login
