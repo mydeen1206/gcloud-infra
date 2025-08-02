@@ -1,0 +1,19 @@
+# Verify GCP GKE Resources
+1. GKE cluster
+2. GKE Node pools
+
+# Configure kubectl cli
+gcloud container clusters get-credentials CLUSTER_NAME --region REGION --project PROJECT_ID
+gcloud container clusters get-credentials devops-dev-gke-cluster --region us-central1 --project terraform-467505
+
+gcloud projects add-iam-policy-binding terraform-467505 \
+  --member="user:mohamedmydeen277@gmail.com" \
+  --role="roles/container.admin"
+
+# kubectl version client and server(cluster)
+kubectl version 
+
+# List Kubernetes Nodes
+kubectl get nodes -o wide
+
+kubectl get ingressclass

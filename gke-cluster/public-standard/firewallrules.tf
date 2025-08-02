@@ -27,10 +27,10 @@ resource "google_compute_firewall" "gke_fw_http" {
   network       = data.terraform_remote_state.vpc.outputs.vpc_network_self_link
   priority      = 1000
   source_ranges = ["0.0.0.0/0"]
-  target_tags   = ["bation-webserver-tag"]
+  target_tags   = ["gke-webserver-tag"]
 }
 # Firewall Rule: Allow All Access
-resource "google_compute_firewall" "bation_fw_allow_all" {
+resource "google_compute_firewall" "gke_fw_allow_all" {
   name          = "gke-fwrule-allow-all"
   direction     = "INGRESS"
   #network       = data.terraform_remote_state.vpc.outputs.network_name
