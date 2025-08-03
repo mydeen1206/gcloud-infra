@@ -11,6 +11,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: app3-nginx-nodeport-service
+                name: blog-ingress-service
                 port:
                   number: 80
