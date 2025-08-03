@@ -1,20 +1,27 @@
 apiVersion: apps/v1
 kind: Deployment  
 metadata: # Dictionary
-  name: myapp1-deployment
+  name: blog-deployment
 spec: # Dictionary
   replicas: 2
   selector: 
     matchLabels: 
-      app: myapp1
+      app: blog
   template:
     metadata: # Dictionary
-      name: myapp1-pod
+      name: blog-pod
       labels:
-        app: myapp1 # Key Value Pairs   
+        app: blog # Key Value Pairs   
     spec:
       containers: # List
-        - name: myapp1-container
-          image: ghcr.io/stacksimplify/kubenginx:1.0.0
+        - name: blog-container
+          image: mydeendevops369/blog:latest
           ports: 
             - containerPort: 80
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "250m"
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
