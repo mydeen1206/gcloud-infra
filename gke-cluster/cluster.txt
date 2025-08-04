@@ -3,6 +3,8 @@
 2. GKE Node pools
 
 # Configure kubectl cli
+
+gcloud components update
 gcloud container clusters get-credentials CLUSTER_NAME --region REGION --project PROJECT_ID
 gcloud container clusters get-credentials devops-dev-gke-cluster --region us-central1 --project terraform-467505
 
